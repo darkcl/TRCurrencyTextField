@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>8865358C-8ED7-4D54-A37F-9B49C4E47AB5</string>
+	<key>IDESourceControlProjectName</key>
+	<string>FormattedCurrencyInput</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>C11AAB444D6B40EBD3D9976B2D194D9686C0F461</key>
+		<string>https://github.com/thiagoross/TRCurrencyTextField.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>FormattedCurrencyInput.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>C11AAB444D6B40EBD3D9976B2D194D9686C0F461</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/thiagoross/TRCurrencyTextField.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>C11AAB444D6B40EBD3D9976B2D194D9686C0F461</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>C11AAB444D6B40EBD3D9976B2D194D9686C0F461</string>
+			<key>IDESourceControlWCCName</key>
+			<string>TRCurrencyTextField</string>
+		</dict>
+	</array>
+</dict>
+</plist>
