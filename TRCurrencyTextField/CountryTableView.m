@@ -29,11 +29,12 @@
 @synthesize countryCodeList = _countryCodeList;
 @synthesize delegate = _delegate;
 
-NSString *_currentCountryCode;
+NSArray *_currentCountryCodes;
+NSUInteger _selectedCountry;
 
 #pragma mark - Superclass methods
 
--(id)initWithCountryCode:(NSString *)countryCode andDelegate:(id<CountryTableViewDelegate>)delegate
+-(id)initWithCountryCodes:(NSArray *)countryCodes andDelegate:(id<LocaleTableViewDelegate>)delegate
 {
     self = [super init];
     if (self) {
@@ -49,7 +50,7 @@ NSString *_currentCountryCode;
             }
         }
         
-        _currentCountryCode = countryCode;
+        _currentCountryCodes = countryCodes;
         
         _delegate = delegate;
     }
@@ -60,8 +61,14 @@ NSString *_currentCountryCode;
 {
     [super viewDidAppear:animated];
     
-    int index = [_countryCodeList indexOfObject:_currentCountryCode];
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
+    NSIndexPath *indexPath;
+    
+    if (_selectedCountry) {
+        indexPath = [NSIndexPath indexPathForRow:_selectedCountry inSection:0];
+    } else {
+        NSUInteger index = [_countryCodeList indexOfObject:[_currentCountryCodes firstObject]];
+        indexPath = [NSIndexPath indexPathForRow:index inSection:0];
+    }
     
     [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
     
@@ -85,10 +92,19 @@ NSString *_currentCountryCode;
     
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    NSArray *locales = [[LocaleHelper sharedInstance] allLocalesForCountryCode:selectedCountryCode];
     
-    if (_delegate) {
-        [_delegate selectedCountry:selectedCountryCode];
+    if ([locales count] > 1) {
+        _selectedCountry = indexPath.row;
+        
+        LocaleTableView *localeView = [[LocaleTableView alloc] initWithCountryCode:selectedCountryCode andDelegate:self.delegate];
+        [self.navigationController pushViewController:localeView animated:YES];
+    } else {
+        [self.navigationController popToRootViewControllerAnimated:YES];
+        
+        if (_delegate) {
+            [_delegate selectedLocale:[locales firstObject]];
+        }
     }
 }
 
@@ -103,10 +119,10 @@ NSString *_currentCountryCode;
     }
     
     NSString *countryCode = self.countryCodeList[indexPath.row];
-    NSString *countryName = [[[LocaleHelper sharedInstance] localeWithCountryCode:countryCode] displayNameForKey:NSLocaleCountryCode value:countryCode];
+    NSString *countryName = [[[LocaleHelper sharedInstance] localeForCountryCode:countryCode] displayNameForKey:NSLocaleCountryCode value:countryCode];
     cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@)", countryCode, countryName];
     
-    if([_currentCountryCode isEqual:countryCode]) {
+    if([_currentCountryCodes containsObject:countryCode]) {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
     }
     else {

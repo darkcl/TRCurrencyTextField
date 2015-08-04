@@ -27,11 +27,14 @@
 @implementation TRCurrencyTextField
 
 @synthesize currencyCode = _currencyCode;
-@synthesize countryCode = _countryCode;
+@synthesize countryCodes = _countryCodes;
 @synthesize maxDigits = _maxDigits;
 @synthesize value = _value;
+@synthesize addWhiteSpaceOnSymbol = _addWhiteSpaceOnSymbol;
 
 NSNumberFormatter *_numberFormatter = nil;
+NSNumberFormatter *_originalNumberFormatter = nil;
+NSString *_symbolWithoutWhiteSpace = nil;
 
 #pragma mark - Superclass methods
 
@@ -62,6 +65,29 @@ NSNumberFormatter *_numberFormatter = nil;
     return self;
 }
 
+#pragma mark - Public methods
+
+- (void)setCountryCode:(NSString *)countryCode
+{
+    _currencyCode = [[LocaleHelper sharedInstance] currencyCodeForCountryCode:countryCode];
+    _countryCodes = [[LocaleHelper sharedInstance] countryCodesForCurrencyCode:_currencyCode];
+    
+    NSArray *locales = [[LocaleHelper sharedInstance] allLocalesForCurrencyCode:_currencyCode];
+    if (locales) {
+        self.text = [self textWithValue:_value andFormattedWithLocale:[locales firstObject]];
+    }
+}
+
+- (void)setLocale:(NSLocale *)locale
+{
+    _currencyCode = [locale objectForKey:NSLocaleCurrencyCode];
+    _countryCodes = [[LocaleHelper sharedInstance] countryCodesForCurrencyCode:_currencyCode];
+    
+    if (locale) {
+        self.text = [self textWithValue:_value andFormattedWithLocale:locale];
+    }
+}
+
 #pragma mark - Private methods
 
 - (void)initialize
@@ -76,8 +102,38 @@ NSNumberFormatter *_numberFormatter = nil;
     self.maxDigits = 11; // $999,999,999.99
     self.currencyCode = @"BRL";
     self.value = [NSNumber numberWithInt:0];
+    self.addWhiteSpaceOnSymbol = YES;
     
     self.delegate = self;
+}
+
+- (void)updateWhiteSpaceOnFormat
+{
+    if (self.addWhiteSpaceOnSymbol) {
+        _numberFormatter = [_originalNumberFormatter copy];
+        
+        // symbol on left
+        if ([_numberFormatter.positiveFormat rangeOfString:@"\u00a4"].location < _numberFormatter.positiveFormat.length/2) {
+            [_numberFormatter setCurrencySymbol:[NSString stringWithFormat:@"%@ ", [_numberFormatter currencySymbol]]];
+        }
+        // symbol on right
+        else {
+            [_numberFormatter setCurrencySymbol:[NSString stringWithFormat:@" %@", [_numberFormatter currencySymbol]]];
+        }
+    } else {
+        _numberFormatter = _originalNumberFormatter;
+    }
+}
+
+- (NSString *)textWithValue:(NSNumber *)value andFormattedWithLocale:(NSLocale *)locale
+{
+    _numberFormatter = [[FormatterHelper sharedInstance] currencyFormatterForLocale:locale];
+    
+    _originalNumberFormatter = _numberFormatter;
+    
+    [self updateWhiteSpaceOnFormat];
+    
+    return [_numberFormatter stringFromNumber:value];
 }
 
 #pragma mark - Properties
@@ -85,9 +141,12 @@ NSNumberFormatter *_numberFormatter = nil;
 - (void)setCurrencyCode:(NSString *)currencyCode
 {
     _currencyCode = currencyCode;
-    _countryCode = [[[LocaleHelper sharedInstance] localeWithCurrencyCode:_currencyCode] objectForKey:NSLocaleCountryCode];
-    _numberFormatter = [[FormatterHelper sharedInstance] currencyFormatterForCurrencyCode:_currencyCode];
-    self.text = [_numberFormatter stringFromNumber:_value];
+    _countryCodes = [[LocaleHelper sharedInstance] countryCodesForCurrencyCode:_currencyCode];
+    
+    NSArray *locales = [[LocaleHelper sharedInstance] allLocalesForCurrencyCode:_currencyCode];
+    if (locales) {
+        self.text = [self textWithValue:_value andFormattedWithLocale:[locales firstObject]];
+    }
 }
 
 - (NSString *)currencyCode
@@ -95,17 +154,9 @@ NSNumberFormatter *_numberFormatter = nil;
     return _currencyCode;
 }
 
-- (void)setCountryCode:(NSString *)countryCode
+- (NSArray *)countryCodes
 {
-    _countryCode = countryCode;
-    _currencyCode = [[[LocaleHelper sharedInstance] localeWithCountryCode:_countryCode] objectForKey:NSLocaleCurrencyCode];
-    _numberFormatter = [[FormatterHelper sharedInstance] currencyFormatterForCountryCode:_countryCode];
-    self.text = [_numberFormatter stringFromNumber:_value];
-}
-
-- (NSString *)countryCode
-{
-    return _countryCode;
+    return _countryCodes;
 }
 
 - (void)setValue:(NSNumber *)value
@@ -119,6 +170,18 @@ NSNumberFormatter *_numberFormatter = nil;
     if (_value) return _value;
     _value = [NSNumber numberWithInt:0];
     return _value;
+}
+
+- (void)setAddWhiteSpaceOnSymbol:(BOOL)addWhiteSpaceOnSymbol
+{
+    _addWhiteSpaceOnSymbol = addWhiteSpaceOnSymbol;
+    [self updateWhiteSpaceOnFormat];
+    self.text = [_numberFormatter stringFromNumber:_value];
+}
+
+- (BOOL)addWhiteSpaceOnSymbol
+{
+    return _addWhiteSpaceOnSymbol;
 }
 
 #pragma mark - UITextFieldDelegate

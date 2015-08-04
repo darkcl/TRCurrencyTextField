@@ -27,7 +27,9 @@
 @implementation LocaleHelper
 
 static LocaleHelper *_self = nil;
-static NSMutableDictionary *_currencyCodes = nil;
+static NSMutableDictionary *_currencyCodeCountryCodeMap = nil;
+static NSMutableDictionary *_currencyCodeLocaleMap = nil;
+static NSMutableDictionary *_countryCodeLocaleMap = nil;
 
 #pragma mark - Superclass methods
 
@@ -35,7 +37,9 @@ static NSMutableDictionary *_currencyCodes = nil;
 {
     self = [super init];
     if (self) {
-        [self fillCurrencyCodeMap];
+        [self fillCurrencyCodeCountryCodeMap];
+        [self fillCurrencyCodeLocaleMap];
+        [self fillCountryCodeLocaleMap];
     }
     return self;
 }
@@ -50,40 +54,147 @@ static NSMutableDictionary *_currencyCodes = nil;
     return _self;
 }
 
-- (NSLocale *)localeWithCountryCode:(NSString *)countryCode
+- (NSLocale *)localeForCountryCode:(NSString *)countryCode
 {
     NSDictionary *components = [NSDictionary dictionaryWithObject:countryCode forKey:NSLocaleCountryCode];
     NSString *localeIdentifier = [NSLocale localeIdentifierFromComponents:components];
     
-    if (localeIdentifier != nil) {
+    if (localeIdentifier != nil && [_countryCodeLocaleMap objectForKey:countryCode]) {
         NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:localeIdentifier];
-        NSString *currencyCode = [locale objectForKey: NSLocaleCurrencyCode];
-        return [self localeWithCurrencyCode:currencyCode];
+        return locale;
     }
     
     return nil;
 }
 
-- (NSLocale *)localeWithCurrencyCode:(NSString *)currencyCode
+- (NSLocale *)localeForCurrencyCode:(NSString *)currencyCode
 {
-    NSLocale *locale = [_currencyCodes objectForKey:currencyCode];
-    return locale;
+    NSDictionary *components = [NSDictionary dictionaryWithObject:currencyCode forKey:NSLocaleCurrencyCode];
+    NSString *localeIdentifier = [NSLocale localeIdentifierFromComponents:components];
+    
+    if (localeIdentifier != nil && [_currencyCodeLocaleMap objectForKey:currencyCode]) {
+        NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:localeIdentifier];
+        return locale;
+    }
+    
+    return nil;
+}
+
+- (NSArray *)allLocalesForCountryCode:(NSString *)countryCode
+{
+    if (!countryCode) {
+        return nil;
+    }
+    
+    return [_countryCodeLocaleMap objectForKey:countryCode];
+}
+
+- (NSArray *)allLocalesForCurrencyCode:(NSString *)currencyCode
+{
+    if (!currencyCode) {
+        return nil;
+    }
+    
+    return [_currencyCodeLocaleMap objectForKey:currencyCode];
+}
+
+- (NSString *)currencyCodeForCountryCode:(NSString *)countryCode
+{
+    if (!countryCode) {
+        return nil;
+    }
+    
+    NSDictionary *components = [NSDictionary dictionaryWithObject:countryCode forKey:NSLocaleCountryCode];
+    NSString *localeIdentifier = [NSLocale localeIdentifierFromComponents:components];
+    
+    if (localeIdentifier != nil) {
+        NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:localeIdentifier];
+        return [locale objectForKey: NSLocaleCurrencyCode];
+    }
+    
+    return nil;
+}
+
+- (NSArray *)countryCodesForCurrencyCode:(NSString *)currencyCode
+{
+    if (!currencyCode) {
+        return nil;
+    }
+    
+    return [_currencyCodeCountryCodeMap objectForKey:currencyCode];
 }
 
 #pragma mark - Private methods
 
-- (void)fillCurrencyCodeMap
+- (void)fillCurrencyCodeCountryCodeMap
 {
-    _currencyCodes = [NSMutableDictionary new];
+    _currencyCodeCountryCodeMap = [NSMutableDictionary new];
     
-    // When we use availableLocalIdentifiers to get currency code, all separators and symbols are correct.
-    // It does not happen when we try to get currency like country code method. Why? No-ideas.
+    for (NSString *identifier in [NSLocale availableLocaleIdentifiers]) {
+        NSLocale *locale = [NSLocale localeWithLocaleIdentifier:identifier];
+        NSString *currencyCode = [locale objectForKey:NSLocaleCurrencyCode];
+        NSString *countryCode = [locale objectForKey:NSLocaleCountryCode];
+        
+        NSMutableArray *countryCodeArray = nil;
+        
+        if (currencyCode != nil) {
+            if ([_currencyCodeCountryCodeMap objectForKey:currencyCode]) {
+                countryCodeArray = [_currencyCodeCountryCodeMap objectForKey:currencyCode];
+                
+                if (![countryCodeArray containsObject:countryCode]) {
+                    [countryCodeArray addObject:countryCode];
+                }
+            } else {
+                countryCodeArray = [NSMutableArray new];
+                [countryCodeArray addObject:countryCode];
+            }
+            [_currencyCodeCountryCodeMap setObject:countryCodeArray forKey:currencyCode];
+        }
+    }
+}
+
+- (void)fillCurrencyCodeLocaleMap
+{
+    _currencyCodeLocaleMap = [NSMutableDictionary new];
+    
     for (NSString *identifier in [NSLocale availableLocaleIdentifiers]) {
         NSLocale *locale = [NSLocale localeWithLocaleIdentifier:identifier];
         NSString *currencyCode = [locale objectForKey:NSLocaleCurrencyCode];
         
+        NSMutableArray *localeArray = nil;
+        
         if (currencyCode != nil) {
-            [_currencyCodes setObject:locale forKey:currencyCode];
+            if ([_currencyCodeLocaleMap objectForKey:currencyCode]) {
+                localeArray = [_currencyCodeLocaleMap objectForKey:currencyCode];
+            } else {
+                localeArray = [NSMutableArray new];
+            }
+            
+            [localeArray addObject:locale];
+            [_currencyCodeLocaleMap setObject:localeArray forKey:currencyCode];
+        }
+    }
+}
+
+- (void)fillCountryCodeLocaleMap
+{
+    _countryCodeLocaleMap = [NSMutableDictionary new];
+    
+    for (NSString *identifier in [NSLocale availableLocaleIdentifiers]) {
+        NSLocale *locale = [NSLocale localeWithLocaleIdentifier:identifier];
+        NSString *countryCode = [locale objectForKey:NSLocaleCountryCode];
+        
+        NSMutableArray *localeArray = nil;
+        
+        if (countryCode != nil) {
+            if ([_countryCodeLocaleMap objectForKey:countryCode]) {
+                localeArray = [_countryCodeLocaleMap objectForKey:countryCode];
+            } else {
+                localeArray = [NSMutableArray new];
+            }
+            
+            [localeArray addObject:locale];
+            [_countryCodeLocaleMap setObject:localeArray forKey:countryCode];
         }
     }
 }

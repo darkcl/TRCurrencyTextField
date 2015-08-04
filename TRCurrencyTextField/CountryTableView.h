@@ -26,16 +26,13 @@
 
 #import "FormatterHelper.h"
 #import "LocaleHelper.h"
-
-@protocol CountryTableViewDelegate <NSObject>
-- (void)selectedCountry:(NSString *)countryCode;
-@end
+#import "LocaleTableView.h"
 
 @interface CountryTableView : UITableViewController
 
 @property (nonatomic, readonly) NSMutableArray *countryCodeList;
-@property (nonatomic, readonly) id<CountryTableViewDelegate> delegate;
+@property (nonatomic, readonly) id<LocaleTableViewDelegate> delegate;
 
-- (id)initWithCountryCode:(NSString *)countryCode andDelegate:(id<CountryTableViewDelegate>)delegate;
+- (id)initWithCountryCodes:(NSArray *)countryCodes andDelegate:(id<LocaleTableViewDelegate>)delegate;
 
 @end

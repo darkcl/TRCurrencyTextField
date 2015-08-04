@@ -30,10 +30,12 @@
 @synthesize delegate = _delegate;
 
 NSNumberFormatter *_currentCurrencyFormatter;
+NSArray *_localeOptions;
+NSUInteger _selectedCurrency;
 
 #pragma mark - Superclass methods
 
-- (id)initWithCurrencyCode:(NSString *)currencyCode andDelegate:(id<CurrencyTableViewDelegate>)delegate
+- (id)initWithCurrencyCode:(NSString *)currencyCode andDelegate:(id<LocaleTableViewDelegate>)delegate
 {
     self = [super init];
     if (self) {
@@ -62,11 +64,16 @@ NSNumberFormatter *_currentCurrencyFormatter;
 {
     [super viewDidAppear:animated];
     
-    int index = [_currencyFormatterList indexOfObject:_currentCurrencyFormatter];
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
+    NSIndexPath *indexPath;
+    
+    if (_selectedCurrency) {
+        indexPath = [NSIndexPath indexPathForRow:_selectedCurrency inSection:0];
+    } else {
+        NSUInteger index = [_currencyFormatterList indexOfObject:_currentCurrencyFormatter];
+        indexPath = [NSIndexPath indexPathForRow:index inSection:0];
+    }
 
     [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
-    
 }
 
 #pragma mark - UITableViewDelegate
@@ -86,11 +93,20 @@ NSNumberFormatter *_currentCurrencyFormatter;
     NSNumberFormatter *selectedCurrencyFormatter = self.currencyFormatterList[indexPath.row];
     
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
+
+    NSArray *locales = [[LocaleHelper sharedInstance] allLocalesForCurrencyCode:selectedCurrencyFormatter.currencyCode];
     
-    [self.navigationController popToRootViewControllerAnimated:YES];
-    
-    if (_delegate) {
-        [_delegate selectedCurrency:selectedCurrencyFormatter.currencyCode];
+    if ([locales count] > 1) {
+        _selectedCurrency = indexPath.row;
+        
+        LocaleTableView *localeView = [[LocaleTableView alloc] initWithCurrencyCode:selectedCurrencyFormatter.currencyCode andDelegate:self.delegate];
+        [self.navigationController pushViewController:localeView animated:YES];
+    } else {
+        [self.navigationController popToRootViewControllerAnimated:YES];
+        
+        if (_delegate) {
+            [_delegate selectedLocale:[locales firstObject]];
+        }
     }
 }
 
@@ -105,8 +121,7 @@ NSNumberFormatter *_currentCurrencyFormatter;
     }
     
     NSString *currencyCode = [self.currencyFormatterList[indexPath.row] currencyCode];
-    NSString *currencySymbol = [self.currencyFormatterList[indexPath.row] currencySymbol];
-    cell.textLabel.text = [NSString stringWithFormat:@"%@   %@", currencyCode, currencySymbol];
+    cell.textLabel.text = [NSString stringWithFormat:@"%@", currencyCode];
     
     if([_currentCurrencyFormatter isEqual:_currencyFormatterList[indexPath.row]]) {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
@@ -116,6 +131,19 @@ NSNumberFormatter *_currentCurrencyFormatter;
     }
     
     return cell;
+}
+
+#pragma mark - UIActionSheetDelegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex > 0) {
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    
+        if (_delegate) {
+            [_delegate selectedLocale:[_localeOptions objectAtIndex:buttonIndex-1]];
+        }
+    }
 }
 
 @end

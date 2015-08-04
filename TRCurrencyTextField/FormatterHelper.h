@@ -31,5 +31,6 @@
 - (NSNumber *)valueFromStringFormatted:(NSString *)stringFormatted andCurrency:(NSString *)currency;
 - (NSNumberFormatter *)currencyFormatterForCountryCode:(NSString *)countryCode;
 - (NSNumberFormatter *)currencyFormatterForCurrencyCode:(NSString *)currencyCode;
+- (NSNumberFormatter *)currencyFormatterForLocale:(NSLocale *)locale;
 
 @end

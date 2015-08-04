@@ -30,8 +30,12 @@
 @interface TRCurrencyTextField : UITextField<UITextFieldDelegate>
 
 @property NSString *currencyCode;
-@property NSString *countryCode;
+@property (readonly) NSArray *countryCodes;
 @property NSInteger maxDigits;
 @property NSNumber *value;
+@property BOOL addWhiteSpaceOnSymbol;
+
+- (void)setCountryCode:(NSString *)countryCode;
+- (void)setLocale:(NSLocale *)locale;
 
 @end

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		AF006D1E1B6FA240004EB720 /* CurrencyTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = AF006D1D1B6FA240004EB720 /* CurrencyTableView.m */; };
 		AF006D211B6FBA31004EB720 /* CountryTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = AF006D201B6FBA31004EB720 /* CountryTableView.m */; };
+		AF21441E1B716085000E8FC1 /* LocaleTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = AF21441D1B716085000E8FC1 /* LocaleTableView.m */; };
 		AF445DDB1B69930D000C7735 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AF445DDA1B69930D000C7735 /* main.m */; };
 		AF445DDE1B69930D000C7735 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AF445DDD1B69930D000C7735 /* AppDelegate.m */; };
 		AF445DE11B69930D000C7735 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF445DE01B69930D000C7735 /* ViewController.m */; };
@@ -35,6 +36,8 @@
 		AF006D1D1B6FA240004EB720 /* CurrencyTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CurrencyTableView.m; sourceTree = "<group>"; };
 		AF006D1F1B6FBA31004EB720 /* CountryTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CountryTableView.h; sourceTree = "<group>"; };
 		AF006D201B6FBA31004EB720 /* CountryTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CountryTableView.m; sourceTree = "<group>"; };
+		AF21441C1B716085000E8FC1 /* LocaleTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocaleTableView.h; sourceTree = "<group>"; };
+		AF21441D1B716085000E8FC1 /* LocaleTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocaleTableView.m; sourceTree = "<group>"; };
 		AF445DD51B69930D000C7735 /* TRCurrencyTextField.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TRCurrencyTextField.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF445DD91B69930D000C7735 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AF445DDA1B69930D000C7735 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -95,21 +98,23 @@
 			isa = PBXGroup;
 			children = (
 				AF445DDC1B69930D000C7735 /* AppDelegate.h */,
-				AF006D1F1B6FBA31004EB720 /* CountryTableView.h */,
-				AF006D1C1B6FA240004EB720 /* CurrencyTableView.h */,
-				AF445E021B699B4F000C7735 /* FormatterHelper.h */,
-				AF445E051B699B5D000C7735 /* LocaleHelper.h */,
-				AF445DFE1B699807000C7735 /* TRCurrencyTextField.h */,
-				AF445DDF1B69930D000C7735 /* ViewController.h */,
 				AF445DDD1B69930D000C7735 /* AppDelegate.m */,
+				AF006D1F1B6FBA31004EB720 /* CountryTableView.h */,
 				AF006D201B6FBA31004EB720 /* CountryTableView.m */,
+				AF006D1C1B6FA240004EB720 /* CurrencyTableView.h */,
 				AF006D1D1B6FA240004EB720 /* CurrencyTableView.m */,
+				AF445E021B699B4F000C7735 /* FormatterHelper.h */,
 				AF445E031B699B4F000C7735 /* FormatterHelper.m */,
-				AF445E061B699B5D000C7735 /* LocaleHelper.m */,
-				AF445DFF1B699807000C7735 /* TRCurrencyTextField.m */,
-				AF445DE01B69930D000C7735 /* ViewController.m */,
 				AF445DE71B69930D000C7735 /* LaunchScreen.xib */,
+				AF445E051B699B5D000C7735 /* LocaleHelper.h */,
+				AF445E061B699B5D000C7735 /* LocaleHelper.m */,
 				AF445DD81B69930D000C7735 /* Supporting Files */,
+				AF445DFE1B699807000C7735 /* TRCurrencyTextField.h */,
+				AF445DFF1B699807000C7735 /* TRCurrencyTextField.m */,
+				AF445DDF1B69930D000C7735 /* ViewController.h */,
+				AF445DE01B69930D000C7735 /* ViewController.m */,
+				AF21441C1B716085000E8FC1 /* LocaleTableView.h */,
+				AF21441D1B716085000E8FC1 /* LocaleTableView.m */,
 			);
 			path = TRCurrencyTextField;
 			sourceTree = "<group>";
@@ -185,7 +190,7 @@
 		AF445DCD1B69930D000C7735 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0630;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = Rossener;
 				TargetAttributes = {
 					AF445DD41B69930D000C7735 = {
@@ -244,6 +249,7 @@
 				AF445E041B699B4F000C7735 /* FormatterHelper.m in Sources */,
 				AF445DDE1B69930D000C7735 /* AppDelegate.m in Sources */,
 				AF445E071B699B5D000C7735 /* LocaleHelper.m in Sources */,
+				AF21441E1B716085000E8FC1 /* LocaleTableView.m in Sources */,
 				AF006D211B6FBA31004EB720 /* CountryTableView.m in Sources */,
 				AF445E001B699807000C7735 /* TRCurrencyTextField.m in Sources */,
 				AF445DDB1B69930D000C7735 /* main.m in Sources */,
@@ -302,6 +308,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -369,6 +376,7 @@
 				INFOPLIST_FILE = TRCurrencyTextField/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.rossener.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -381,6 +389,7 @@
 				INFOPLIST_FILE = TRCurrencyTextField/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.rossener.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -399,6 +408,7 @@
 				);
 				INFOPLIST_FILE = TRCurrencyTextFieldTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.rossener.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TRCurrencyTextField.app/TRCurrencyTextField";
 			};
@@ -414,6 +424,7 @@
 				);
 				INFOPLIST_FILE = TRCurrencyTextFieldTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.rossener.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TRCurrencyTextField.app/TRCurrencyTextField";
 			};

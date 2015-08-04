@@ -25,16 +25,14 @@
 #import <UIKit/UIKit.h>
 
 #import "FormatterHelper.h"
+#import "LocaleHelper.h"
+#import "LocaleTableView.h"
 
-@protocol CurrencyTableViewDelegate <NSObject>
-- (void)selectedCurrency:(NSString *)currencyCode;
-@end
-
-@interface CurrencyTableView : UITableViewController<UITableViewDelegate>
+@interface CurrencyTableView : UITableViewController<UITableViewDelegate,UIActionSheetDelegate>
 
 @property (nonatomic, readonly) NSMutableArray *currencyFormatterList;
-@property (nonatomic, readonly) id<CurrencyTableViewDelegate> delegate;
+@property (nonatomic, readonly) id<LocaleTableViewDelegate> delegate;
 
-- (id)initWithCurrencyCode:(NSString *)currencyCode andDelegate:(id<CurrencyTableViewDelegate>)delegate;
+- (id)initWithCurrencyCode:(NSString *)currencyCode andDelegate:(id<LocaleTableViewDelegate>)delegate;
 
 @end

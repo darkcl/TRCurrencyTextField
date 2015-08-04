@@ -1,4 +1,4 @@
-//  ViewController.h
+//  LocaleTableView.h
 //  Thiago Rossener ( https://github.com/thiagoross/TRCurrencyTextField )
 //
 //  Copyright (c) 2015 Rossener ( http://www.rossener.com/ )
@@ -24,18 +24,18 @@
 
 #import <UIKit/UIKit.h>
 
-#import "TRCurrencyTextField.h"
-#import "CountryTableView.h"
-#import "CurrencyTableView.h"
-#import "LocaleTableView.h"
+#import "FormatterHelper.h"
+#import "LocaleHelper.h"
 
-@interface ViewController : UIViewController<LocaleTableViewDelegate>
-
-@property (strong, nonatomic) TRCurrencyTextField *textField;
-
-@property (strong, nonatomic) UIButton *buttonValue;
-@property (strong, nonatomic) UIButton *buttonCurrency;
-@property (strong, nonatomic) UIButton *buttonCountry;
-
+@protocol LocaleTableViewDelegate <NSObject>
+- (void)selectedLocale:(NSLocale *)locale;
 @end
 
+@interface LocaleTableView : UITableViewController
+
+@property (nonatomic, readonly) id<LocaleTableViewDelegate> delegate;
+
+- (id)initWithCurrencyCode:(NSString *)currencyCode andDelegate:(id<LocaleTableViewDelegate>)delegate;
+- (id)initWithCountryCode:(NSString *)countryCode andDelegate:(id<LocaleTableViewDelegate>)delegate;
+
+@end

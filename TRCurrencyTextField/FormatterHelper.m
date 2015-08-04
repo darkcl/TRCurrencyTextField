@@ -80,7 +80,7 @@ static FormatterHelper *_self = nil;
         return nil;
     }
     
-    NSLocale *locale = [[LocaleHelper sharedInstance] localeWithCountryCode:countryCode];
+    NSLocale *locale = [[LocaleHelper sharedInstance] localeForCountryCode:countryCode];    
     return [self currencyFormatterForLocale:locale];
 }
 
@@ -90,11 +90,9 @@ static FormatterHelper *_self = nil;
         return nil;
     }
     
-    NSLocale *locale = [[LocaleHelper sharedInstance] localeWithCurrencyCode:currencyCode];
+    NSLocale *locale = [[LocaleHelper sharedInstance] localeForCurrencyCode:currencyCode];
     return [self currencyFormatterForLocale:locale];
 }
-
-#pragma mark - Private methods
 
 - (NSNumberFormatter *)currencyFormatterForLocale:(NSLocale *)locale
 {
@@ -107,9 +105,9 @@ static FormatterHelper *_self = nil;
     [numberFormatter setMaximumFractionDigits:2];
     [numberFormatter setMinimumFractionDigits:2];
     [numberFormatter setLocale:locale];
-    [numberFormatter setCurrencySymbol:[NSString stringWithFormat:@"%@ ", [numberFormatter currencySymbol]]];
-    
+        
     return numberFormatter;
 }
+
 
 @end

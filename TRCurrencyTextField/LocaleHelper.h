@@ -27,7 +27,11 @@
 @interface LocaleHelper : NSObject
 
 + (id)sharedInstance;
-- (NSLocale *)localeWithCountryCode:(NSString *)countryCode;
-- (NSLocale *)localeWithCurrencyCode:(NSString *)currencyCode;
+- (NSLocale *)localeForCountryCode:(NSString *)countryCode;
+- (NSLocale *)localeForCurrencyCode:(NSString *)currencyCode;
+- (NSArray *)allLocalesForCountryCode:(NSString *)countryCode;
+- (NSArray *)allLocalesForCurrencyCode:(NSString *)currencyCode;
+- (NSString *)currencyCodeForCountryCode:(NSString *)countryCode;
+- (NSArray *)countryCodesForCurrencyCode:(NSString *)currencyCode;
 
 @end

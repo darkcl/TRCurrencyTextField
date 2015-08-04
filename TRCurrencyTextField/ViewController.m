@@ -92,18 +92,11 @@ UIImageView *_buttonCountryImage;
     [self.textField becomeFirstResponder];
 }
 
-#pragma mark - CountryTableViewDelegate
+#pragma mark - LocaleTableViewDelegate
 
-- (void)selectedCountry:(NSString *)countryCode
+- (void)selectedLocale:(NSLocale *)locale
 {
-    self.textField.countryCode = countryCode;
-}
-
-#pragma mark - CurrencyTableViewDelegate
-
-- (void)selectedCurrency:(NSString *)currencyCode
-{
-    self.textField.currencyCode = currencyCode;
+    [self.textField setLocale:locale];
 }
 
 #pragma mark - Private methods
@@ -113,7 +106,7 @@ UIImageView *_buttonCountryImage;
     NSString *message = [NSString stringWithFormat:@"Text: %@\n", self.textField.text];
     message = [message stringByAppendingString:[NSString stringWithFormat:@"Number: %@\n", self.textField.value]];
     message = [message stringByAppendingString:[NSString stringWithFormat:@"Currency Code: %@\n", self.textField.currencyCode]];
-    message = [message stringByAppendingString:[NSString stringWithFormat:@"Country Code: %@", self.textField.countryCode]];
+    message = [message stringByAppendingString:[NSString stringWithFormat:@"Country Codes: %@", [self.textField.countryCodes componentsJoinedByString:@","]]];
     
     UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Your value is..." message: message delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
     
@@ -128,7 +121,7 @@ UIImageView *_buttonCountryImage;
 
 - (void)selectCountry
 {
-    CountryTableView *countryTableView = [[CountryTableView alloc] initWithCountryCode:self.textField.countryCode andDelegate:self];
+    CountryTableView *countryTableView = [[CountryTableView alloc] initWithCountryCodes:self.textField.countryCodes andDelegate:self];
     [self.navigationController pushViewController:countryTableView animated:YES];
 }
 
