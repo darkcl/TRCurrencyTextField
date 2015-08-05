@@ -1,0 +1,14 @@
+PODS:
+  - TRCurrencyTextField (0.1.0)
+
+DEPENDENCIES:
+  - TRCurrencyTextField (from `../`)
+
+EXTERNAL SOURCES:
+  TRCurrencyTextField:
+    :path: ../
+
+SPEC CHECKSUMS:
+  TRCurrencyTextField: 0becbc4129fb5d1733039d0790b5b27458abf5ad
+
+COCOAPODS: 0.36.1

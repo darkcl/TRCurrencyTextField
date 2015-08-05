@@ -1,0 +1,12 @@
+source 'https://github.com/CocoaPods/Specs.git'
+use_frameworks!
+
+target 'TRCurrencyTextField_Example', :exclusive => true do
+  pod "TRCurrencyTextField", :path => "../"
+end
+
+target 'TRCurrencyTextField_Tests', :exclusive => true do
+  pod "TRCurrencyTextField", :path => "../"
+
+  
+end
