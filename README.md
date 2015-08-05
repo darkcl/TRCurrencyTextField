@@ -1,6 +1,6 @@
 # TRCurrencyTextField
 
-[![CI Status](http://img.shields.io/travis/Thiago Rossener/TRCurrencyTextField.svg?style=flat)](https://travis-ci.org/Thiago Rossener/TRCurrencyTextField)
+[![Build Status](https://travis-ci.org/thiagoross/TRCurrencyTextField.svg?branch=master)](https://travis-ci.org/thiagoross/TRCurrencyTextField)
 [![Version](https://img.shields.io/cocoapods/v/TRCurrencyTextField.svg?style=flat)](http://cocoapods.org/pods/TRCurrencyTextField)
 [![License](https://img.shields.io/cocoapods/l/TRCurrencyTextField.svg?style=flat)](http://cocoapods.org/pods/TRCurrencyTextField)
 [![Platform](https://img.shields.io/cocoapods/p/TRCurrencyTextField.svg?style=flat)](http://cocoapods.org/pods/TRCurrencyTextField)
