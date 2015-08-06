@@ -107,7 +107,7 @@ textField.maxDigits = 8;
 
 Also, you can remove the whitespace close to symbol.
 
-So, from US$ 1,1234.00 to US$1,234.00
+So, from US$ 1,234.00 to US$1,234.00
 
 ```objective-c
 textField.addWhiteSpaceOnSymbol = NO;
