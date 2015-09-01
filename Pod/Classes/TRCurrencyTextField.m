@@ -184,6 +184,11 @@ NSString *_symbolWithoutWhiteSpace = nil;
     return _addWhiteSpaceOnSymbol;
 }
 
+- (void)setText:(NSString *)text {
+    [super setText:text];
+    [self sendActionsForControlEvents:UIControlEventEditingChanged];
+}
+
 #pragma mark - UITextFieldDelegate
 
 - (BOOL)textFieldShouldClear:(UITextField *)textField
