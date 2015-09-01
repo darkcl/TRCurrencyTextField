@@ -238,8 +238,13 @@ NSString *_symbolWithoutWhiteSpace = nil;
     if (textFieldTextStr.length <= self.maxDigits) {
         NSDecimalNumber *textFieldTextNum = [NSDecimalNumber decimalNumberWithString:textFieldTextStr];
         NSDecimalNumber *divideByNum = [[[NSDecimalNumber alloc] initWithInt:10] decimalNumberByRaisingToPower:_numberFormatter.maximumFractionDigits];
-        NSDecimalNumber *textFieldTextNewNum = [textFieldTextNum decimalNumberByDividingBy:divideByNum];
         
+        NSDecimalNumber *textFieldTextNewNum;
+        if ([self isNumberCorrect:textFieldTextNum] && [self isNumberCorrect:divideByNum]) {
+            textFieldTextNewNum = [textFieldTextNum decimalNumberByDividingBy:divideByNum];
+        } else {
+            textFieldTextNewNum = [NSDecimalNumber zero];
+        }
         self.value = textFieldTextNewNum;
         
         if (cursorOffset != textFieldTextStrLength) {
@@ -252,6 +257,10 @@ NSString *_symbolWithoutWhiteSpace = nil;
     }
     
     return NO;
+}
+
+- (BOOL)isNumberCorrect:(NSDecimalNumber *)number {
+    return !([number compare:[NSDecimalNumber zero]] == NSOrderedSame || [[NSDecimalNumber notANumber] isEqualToNumber:number]);
 }
 
 @end
