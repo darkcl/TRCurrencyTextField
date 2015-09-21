@@ -113,6 +113,16 @@ So, from US$ 1,234.00 to US$1,234.00
 textField.addWhiteSpaceOnSymbol = NO;
 ```
 
+## Release Notes
+
+Version 0.1.1
+* Fixed crashes caused by editing currency symbol
+* Fixed conversion from value to string in TRFormatterHelper
+* Added support for Editing Changed event
+
+Version 0.1.0
+* Initial release
+
 ## Author
 
 [Thiago Rossener](http://www.rossener.com)
