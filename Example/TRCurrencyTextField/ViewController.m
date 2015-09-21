@@ -83,8 +83,13 @@ UIImageView *_buttonCountryImage;
     return self;
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
+    
+    [self.view addGestureRecognizer:tap];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -200,6 +205,11 @@ UIImageView *_buttonCountryImage;
     image.frame = CGRectMake(180, 15, 10, 10);
     image.image = [UIImage imageNamed:@"forward-highlight.png"];
     return image;
+}
+
+- (void)dismissKeyboard
+{
+    [self.textField resignFirstResponder];
 }
 
 @end

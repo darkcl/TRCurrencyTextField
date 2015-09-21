@@ -1,0 +1,6 @@
+framework module TRCurrencyTextField {
+  umbrella header "TRCurrencyTextField-umbrella.h"
+
+  export *
+  module * { export * }
+}

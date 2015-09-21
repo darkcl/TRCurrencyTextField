@@ -38,15 +38,25 @@ static TRFormatterHelper *_self = nil;
     return _self;
 }
 
-- (NSString *)stringFormattedFromValue:(NSNumber *)value withCurrency:(NSString *)currency
+- (NSString *)stringFormattedFromValue:(NSNumber *)value withCurrencyCode:(NSString *)currencyCode
 {
-    NSNumberFormatter *numberFormatter = [self currencyFormatterForCurrencyCode:currency];
+    NSArray *locales = [[TRLocaleHelper sharedInstance] allLocalesForCurrencyCode:currencyCode];
+    NSAssert((locales != nil), @"Currency code passed as parameter is not valid.");
+    
+    NSNumberFormatter *numberFormatter = [[TRFormatterHelper sharedInstance] currencyFormatterForLocale:[locales firstObject]];
+    
+    [[TRFormatterHelper sharedInstance] addWhitespaceBetweenSymbolAndValue:numberFormatter];
+    
     return [numberFormatter stringFromNumber:value];
 }
 
-- (NSNumber *)valueFromStringFormatted:(NSString *)stringFormatted andCurrency:(NSString *)currency
+- (NSNumber *)valueFromStringFormatted:(NSString *)stringFormatted andCurrencyCode:(NSString *)currencyCode
 {
-    NSNumberFormatter *numberFormatter = [self currencyFormatterForCurrencyCode:currency];
+    NSArray *locales = [[TRLocaleHelper sharedInstance] allLocalesForCurrencyCode:currencyCode];
+    NSAssert((locales != nil), @"Currency code passed as parameter is not valid.");
+    
+    NSNumberFormatter *numberFormatter = [[TRFormatterHelper sharedInstance] currencyFormatterForLocale:[locales firstObject]];
+    
     NSString *textFieldStr = [NSString stringWithFormat:@"%@", stringFormatted];
     
     NSMutableString *textFieldStrValue = [NSMutableString stringWithString:textFieldStr];
@@ -90,6 +100,7 @@ static TRFormatterHelper *_self = nil;
     }
     
     NSLocale *locale = [[TRLocaleHelper sharedInstance] localeForCurrencyCode:currencyCode];
+    
     return [self currencyFormatterForLocale:locale];
 }
 
@@ -108,5 +119,16 @@ static TRFormatterHelper *_self = nil;
     return numberFormatter;
 }
 
+- (void)addWhitespaceBetweenSymbolAndValue:(NSNumberFormatter *)numberFormatter
+{
+    // symbol on left
+    if ([numberFormatter.positiveFormat rangeOfString:@"\u00a4"].location < numberFormatter.positiveFormat.length/2) {
+        [numberFormatter setCurrencySymbol:[NSString stringWithFormat:@"%@ ", [numberFormatter currencySymbol]]];
+    }
+    // symbol on right
+    else {
+        [numberFormatter setCurrencySymbol:[NSString stringWithFormat:@" %@", [numberFormatter currencySymbol]]];
+    }
+}
 
 @end

@@ -9,6 +9,6 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  TRCurrencyTextField: 0becbc4129fb5d1733039d0790b5b27458abf5ad
+  TRCurrencyTextField: e0da7f5cfa7f5becef3a29944cf1c55955d01eaa
 
-COCOAPODS: 0.36.1
+COCOAPODS: 0.38.2

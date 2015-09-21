@@ -7,6 +7,7 @@
 //
 
 @import XCTest;
+@import TRCurrencyTextField;
 
 @interface Tests : XCTestCase
 
@@ -26,9 +27,28 @@
     [super tearDown];
 }
 
-- (void)testExample
+- (void)testConvertValueToStringWithCurrencyCodeValid
 {
-    XCTAssertFalse(2 == 3);
+    NSString *formattedString = [[TRFormatterHelper sharedInstance] stringFormattedFromValue:[NSNumber numberWithFloat:1.23f] withCurrencyCode:@"BRL"];
+    
+    XCTAssert([formattedString isEqualToString:@"R$ 1,23"]);
+}
+
+- (void)testConvertValueToStringWithCurrencyCodeInvalid
+{
+    XCTAssertThrowsSpecific([[TRFormatterHelper sharedInstance] stringFormattedFromValue:[NSNumber numberWithFloat:1.23f] withCurrencyCode:@"ZZZ"], NSException, @"Currency code passed as parameter is not valid.");
+}
+
+- (void)testConvertStringToValueWithCurrencyCodeValue
+{
+    NSNumber *number = [[TRFormatterHelper sharedInstance] valueFromStringFormatted:@"R$ 1,23" andCurrencyCode:@"BRL"];
+    
+    XCTAssert([number isEqualToNumber:[NSNumber numberWithDouble:1.23]]);
+}
+
+- (void)testConvertStringToValueWithCurrencyCodeInvalue
+{
+    XCTAssertThrowsSpecific([[TRFormatterHelper sharedInstance] valueFromStringFormatted:@"R$ 1,23" andCurrencyCode:@"ZZZ"], NSException, @"Currency code passed as parameter is not valid.");
 }
 
 @end

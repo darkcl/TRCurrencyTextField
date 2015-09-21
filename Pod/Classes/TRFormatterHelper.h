@@ -29,10 +29,11 @@
 @interface TRFormatterHelper : NSObject
 
 + (id)sharedInstance;
-- (NSString *)stringFormattedFromValue:(NSNumber *)value withCurrency:(NSString *)currency;
-- (NSNumber *)valueFromStringFormatted:(NSString *)stringFormatted andCurrency:(NSString *)currency;
+- (NSString *)stringFormattedFromValue:(NSNumber *)value withCurrencyCode:(NSString *)currencyCode;
+- (NSNumber *)valueFromStringFormatted:(NSString *)stringFormatted andCurrencyCode:(NSString *)currencyCode;
 - (NSNumberFormatter *)currencyFormatterForCountryCode:(NSString *)countryCode;
 - (NSNumberFormatter *)currencyFormatterForCurrencyCode:(NSString *)currencyCode;
 - (NSNumberFormatter *)currencyFormatterForLocale:(NSLocale *)locale;
+- (void)addWhitespaceBetweenSymbolAndValue:(NSNumberFormatter *)numberFormatter;
 
 @end

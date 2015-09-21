@@ -110,16 +110,8 @@ NSString *_symbolWithoutWhiteSpace = nil;
 - (void)updateWhiteSpaceOnFormat
 {
     if (self.addWhiteSpaceOnSymbol) {
-        _numberFormatter = [_originalNumberFormatter copy];
-        
-        // symbol on left
-        if ([_numberFormatter.positiveFormat rangeOfString:@"\u00a4"].location < _numberFormatter.positiveFormat.length/2) {
-            [_numberFormatter setCurrencySymbol:[NSString stringWithFormat:@"%@ ", [_numberFormatter currencySymbol]]];
-        }
-        // symbol on right
-        else {
-            [_numberFormatter setCurrencySymbol:[NSString stringWithFormat:@" %@", [_numberFormatter currencySymbol]]];
-        }
+        _numberFormatter = [_originalNumberFormatter copy]; // Not modify the original
+        [[TRFormatterHelper sharedInstance] addWhitespaceBetweenSymbolAndValue:_numberFormatter];
     } else {
         _numberFormatter = _originalNumberFormatter;
     }

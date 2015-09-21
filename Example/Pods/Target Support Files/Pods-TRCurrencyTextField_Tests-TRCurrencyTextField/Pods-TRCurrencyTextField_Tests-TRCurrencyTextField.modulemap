@@ -1,6 +1,0 @@
-framework module TRCurrencyTextField {
-  umbrella header "Pods-TRCurrencyTextField_Tests-TRCurrencyTextField-umbrella.h"
-
-  export *
-  module * { export * }
-}
